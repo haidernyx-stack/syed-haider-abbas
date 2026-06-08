@@ -117,7 +117,6 @@ fun SettingsScreen(
                         value = systemPrompt,
                         onValueChange = { systemPrompt = it },
                         modifier = Modifier.fillMaxWidth().height(100.dp),
-                        shape = RoundedCornerShape(16.dp),
                         colors = OutlinedTextFieldDefaults.colors(
                             focusedTextColor = TextWhite,
                             unfocusedTextColor = TextWhite,
@@ -157,11 +156,11 @@ fun SettingsScreen(
                         Box(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .clip(RoundedCornerShape(16.dp))
+                                .clip(RoundedCornerShape(6.dp))
                                 .background(if (isSel) ObsidianSurfaceLight else BorderColor)
-                                .border(1.5.dp, if (isSel) NeonPurple else Color.Transparent, RoundedCornerShape(16.dp))
+                                .border(1.dp, if (isSel) NeonCyan else Color.Transparent, RoundedCornerShape(6.dp))
                                 .clickable { selectedModel = engine.first }
-                                .padding(12.dp)
+                                .padding(10.dp)
                         ) {
                             Column {
                                 Text(engine.first, color = TextWhite, fontWeight = FontWeight.Bold, fontSize = 11.sp)

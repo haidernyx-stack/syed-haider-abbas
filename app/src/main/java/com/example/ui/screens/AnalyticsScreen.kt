@@ -62,11 +62,11 @@ fun AnalyticsScreen(
             
             Text(
                 text = "Workspace: Standard Free Tier",
-                color = NeonPurple,
+                color = NeonCyan,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
-                    .background(NeonPurple.copy(alpha = 0.1f), RoundedCornerShape(4.dp))
+                    .background(NeonCyan.copy(alpha = 0.1f), RoundedCornerShape(4.dp))
                     .padding(horizontal = 8.dp, vertical = 4.dp)
             )
         }
@@ -96,7 +96,7 @@ fun AnalyticsScreen(
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(text = item.value, color = TextWhite, fontSize = 18.sp, fontWeight = FontWeight.Black)
                         }
-                        Icon(imageVector = item.icon, contentDescription = null, tint = NeonPurple, modifier = Modifier.size(20.dp))
+                        Icon(imageVector = item.icon, contentDescription = null, tint = NeonCyan, modifier = Modifier.size(20.dp))
                     }
                 }
             }
@@ -218,7 +218,7 @@ fun AnalyticsScreen(
                                     )
                                     Text(
                                         text = String.format("%.2f MB", item.fileSizeBytes / 1_000_000.0),
-                                        color = NeonPurple,
+                                        color = NeonCyan,
                                         fontSize = 10.sp,
                                         fontWeight = FontWeight.Bold
                                     )

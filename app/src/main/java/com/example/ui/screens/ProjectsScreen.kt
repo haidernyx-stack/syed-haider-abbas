@@ -87,7 +87,7 @@ fun ProjectsScreen(
                 focusedContainerColor = ObsidianSurface,
                 unfocusedContainerColor = ObsidianSurface
             ),
-            shape = RoundedCornerShape(16.dp)
+            shape = RoundedCornerShape(10.dp)
         )
 
         if (filteredProjects.isEmpty()) {

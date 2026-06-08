@@ -18,11 +18,10 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.screens.*
-import com.example.ui.theme.*
+import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.viewmodel.ClipForgeViewModel
 
 class MainActivity : ComponentActivity() {
@@ -40,51 +39,37 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         NavigationBar(
                             containerColor = MaterialTheme.colorScheme.surface,
-                            tonalElevation = 0.dp,
-                            modifier = Modifier.background(MaterialTheme.colorScheme.surface)
+                            tonalElevation = 8.dp
                         ) {
-                            val navItemColors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = ObsidianSurfaceLight,
-                                selectedTextColor = Color(0xFFE8DEF8),
-                                unselectedIconColor = TextMuted,
-                                unselectedTextColor = TextMuted,
-                                indicatorColor = Color(0xFFE8DEF8)
-                            )
-
                             NavigationBarItem(
                                 selected = currentTab == "home",
                                 onClick = { currentTab = "home" },
                                 icon = { Icon(Icons.Default.Home, contentDescription = "Home") },
-                                label = { Text("Home", fontSize = 11.sp) },
-                                colors = navItemColors
+                                label = { Text("Home", fontSize = 11.sp) }
                             )
                             NavigationBarItem(
                                 selected = currentTab == "projects",
                                 onClick = { currentTab = "projects" },
                                 icon = { Icon(Icons.Default.List, contentDescription = "Projects") },
-                                label = { Text("Projects", fontSize = 11.sp) },
-                                colors = navItemColors
+                                label = { Text("Projects", fontSize = 11.sp) }
                             )
                             NavigationBarItem(
                                 selected = currentTab == "workstation",
                                 onClick = { currentTab = "workstation" },
                                 icon = { Icon(Icons.Default.PlayArrow, contentDescription = "Clipper Studio") },
-                                label = { Text("Studio", fontSize = 11.sp) },
-                                colors = navItemColors
+                                label = { Text("Studio", fontSize = 11.sp) }
                             )
                             NavigationBarItem(
                                 selected = currentTab == "analytics",
                                 onClick = { currentTab = "analytics" },
                                 icon = { Icon(Icons.Default.Star, contentDescription = "Analytics") },
-                                label = { Text("Analytics", fontSize = 11.sp) },
-                                colors = navItemColors
+                                label = { Text("Analytics", fontSize = 11.sp) }
                             )
                             NavigationBarItem(
                                 selected = currentTab == "settings",
                                 onClick = { currentTab = "settings" },
                                 icon = { Icon(Icons.Default.Settings, contentDescription = "Settings") },
-                                label = { Text("Settings", fontSize = 11.sp) },
-                                colors = navItemColors
+                                label = { Text("Settings", fontSize = 11.sp) }
                             )
                         }
                     }

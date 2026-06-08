@@ -38,16 +38,15 @@ fun CyberButton(
     color: Color = NeonPurple,
     isEnabled: Boolean = true
 ) {
-    val contentColor = if (color == NeonPurple) DeepDarkPurple else TextWhite
     Box(
         modifier = modifier
-            .height(56.dp)
-            .clip(RoundedCornerShape(16.dp))
+            .heightIn(min = 48.dp)
+            .clip(RoundedCornerShape(8.dp))
             .background(
                 if (isEnabled) color else color.copy(alpha = 0.3f)
             )
             .clickable(enabled = isEnabled, onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 12.dp),
+            .padding(horizontal = 16.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -58,14 +57,14 @@ fun CyberButton(
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = if (isEnabled) contentColor else contentColor.copy(alpha = 0.5f),
+                    tint = TextWhite,
                     modifier = Modifier.size(20.dp)
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
             Text(
                 text = text,
-                color = if (isEnabled) contentColor else contentColor.copy(alpha = 0.5f),
+                color = if (isEnabled) TextWhite else TextWhite.copy(alpha = 0.5f),
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp
             )
@@ -78,11 +77,11 @@ fun NeonCard(
     modifier: Modifier = Modifier,
     hasNeonBorder: Boolean = false,
     borderColor: Color = NeonPurple,
-    shape: Shape = RoundedCornerShape(20.dp),
+    shape: Shape = RoundedCornerShape(12.dp),
     content: @Composable ColumnScope.() -> Unit
 ) {
     val borderModifier = if (hasNeonBorder) {
-        Modifier.border(1.6.dp, Brush.horizontalGradient(listOf(borderColor, borderColor.copy(alpha = 0.2f))), shape)
+        Modifier.border(1.dp, Brush.horizontalGradient(listOf(borderColor, borderColor.copy(alpha = 0.2f))), shape)
     } else {
         Modifier.border(1.dp, BorderColor, shape)
     }
@@ -92,7 +91,7 @@ fun NeonCard(
             .clip(shape)
             .background(ObsidianSurface)
             .then(borderModifier)
-            .padding(20.dp),
+            .padding(16.dp),
         content = content
     )
 }

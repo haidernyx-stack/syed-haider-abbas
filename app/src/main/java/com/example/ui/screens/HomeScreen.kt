@@ -73,83 +73,50 @@ fun HomeScreen(
                 NeonCard(
                     modifier = Modifier.fillMaxWidth(),
                     hasNeonBorder = true,
-                    borderColor = NeonPurple
+                    borderColor = NeonCyan
                 ) {
-                    Column(modifier = Modifier.fillMaxWidth()) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.Top
-                        ) {
-                            Column(modifier = Modifier.weight(1f)) {
-                                Text(
-                                    text = "ACTIVE PROCESSING",
-                                    color = NeonPurple,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 11.sp,
-                                    letterSpacing = 1.sp
-                                )
-                                Spacer(modifier = Modifier.height(2.dp))
-                                Text(
-                                    text = p.title,
-                                    color = TextWhite,
-                                    fontWeight = FontWeight.Medium,
-                                    fontSize = 18.sp
-                                )
-                            }
-                            Text(
-                                text = "${(p.progress * 100).toInt()}%",
-                                color = TextMuted,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                        
-                        Spacer(modifier = Modifier.height(14.dp))
-                        
-                        LinearProgressIndicator(
-                            progress = { p.progress },
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(8.dp)
-                                .clip(RoundedCornerShape(4.dp)),
-                            color = NeonPurple,
-                            trackColor = BorderColor,
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        CircularProgressIndicator(
+                            color = NeonCyan,
+                            modifier = Modifier.size(36.dp),
+                            strokeWidth = 3.dp
                         )
-                        
-                        Spacer(modifier = Modifier.height(14.dp))
-                        
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
+                        Spacer(modifier = Modifier.width(16.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "Active Pipeline: ${p.status}",
+                                color = TextWhite,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            LinearProgressIndicator(
+                                progress = { p.progress },
                                 modifier = Modifier
-                                    .clip(RoundedCornerShape(99.dp))
-                                    .background(DeepDarkPurple)
-                                    .border(1.dp, DeepPurpleBorder, RoundedCornerShape(99.dp))
-                                    .padding(horizontal = 12.dp, vertical = 6.dp)
+                                    .fillMaxWidth()
+                                    .height(6.dp)
+                                    .clip(RoundedCornerShape(3.dp)),
+                                color = NeonCyan,
+                                trackColor = BorderColor,
+                            )
+                            Spacer(modifier = Modifier.height(2.dp))
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
                             ) {
                                 Text(
-                                    text = p.status,
-                                    color = Color(0xFFEADDFF),
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Medium
-                                )
-                            }
-                            
-                            Box(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(99.dp))
-                                    .background(ObsidianSurfaceLight)
-                                    .border(1.dp, BorderColor, RoundedCornerShape(99.dp))
-                                    .padding(horizontal = 12.dp, vertical = 6.dp)
-                            ) {
-                                Text(
-                                    text = if (isMovieMode) "8 clips detected" else "12 clips detected",
+                                    text = "FFmpeg extraction & Whisper AI",
                                     color = TextMuted,
+                                    fontSize = 11.sp
+                                )
+                                Text(
+                                    text = "${(p.progress * 100).toInt()}%",
+                                    color = NeonCyan,
                                     fontSize = 11.sp,
-                                    fontWeight = FontWeight.Medium
+                                    fontWeight = FontWeight.Bold
                                 )
                             }
                         }
@@ -187,7 +154,6 @@ fun HomeScreen(
                     label = { Text("Video Title") },
                     placeholder = { Text("e.g. Scaling AI Agents") },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = TextWhite,
                         unfocusedTextColor = TextWhite,
@@ -206,7 +172,6 @@ fun HomeScreen(
                     label = { Text("Paste YouTube / Video Link") },
                     placeholder = { Text("https://www.youtube.com/watch?v=...") },
                     modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(16.dp),
                     colors = OutlinedTextFieldDefaults.colors(
                         focusedTextColor = TextWhite,
                         unfocusedTextColor = TextWhite,
@@ -236,11 +201,11 @@ fun HomeScreen(
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(16.dp))
+                            .clip(RoundedCornerShape(8.dp))
                             .background(if (!isMovieMode) ObsidianSurfaceLight else BorderColor)
-                            .border(1.5.dp, if (!isMovieMode) NeonPurple else Color.Transparent, RoundedCornerShape(16.dp))
+                            .border(1.dp, if (!isMovieMode) NeonPurple else Color.Transparent, RoundedCornerShape(8.dp))
                             .clickable { isMovieMode = false }
-                            .padding(12.dp),
+                            .padding(10.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -255,11 +220,11 @@ fun HomeScreen(
                     Box(
                         modifier = Modifier
                             .weight(1f)
-                            .clip(RoundedCornerShape(16.dp))
+                            .clip(RoundedCornerShape(8.dp))
                             .background(if (isMovieMode) ObsidianSurfaceLight else BorderColor)
-                            .border(1.5.dp, if (isMovieMode) NeonPink else Color.Transparent, RoundedCornerShape(16.dp))
+                            .border(1.dp, if (isMovieMode) NeonPink else Color.Transparent, RoundedCornerShape(8.dp))
                             .clickable { isMovieMode = true }
-                            .padding(12.dp),
+                            .padding(10.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -276,9 +241,9 @@ fun HomeScreen(
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clip(RoundedCornerShape(12.dp))
+                            .clip(RoundedCornerShape(8.dp))
                             .background(BorderColor)
-                            .padding(horizontal = 12.dp, vertical = 6.dp),
+                            .padding(horizontal = 10.dp, vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Icon(Icons.Default.Warning, contentDescription = null, tint = WarningYellow, modifier = Modifier.size(16.dp))
