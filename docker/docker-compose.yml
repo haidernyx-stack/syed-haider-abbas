@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Next.js 15 Web Workspace
+  frontend:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_URL=postgresql://clipforge_user:secure_pass@postgres:5432/clipforge_db?schema=public
+      - NEXT_PUBLIC_API_URL=http://localhost:8000/api/v1
+    depends_on:
+      - backend
+    restart: always
+
+  # FastAPI REST Web Service API Controller
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    ports:
+      - '8000:8000'
+    volumes:
+      - ../backend:/app
+      - shared_storage:/app/storage
+    environment:
+      - DATABASE_URL=postgresql://clipforge_user:secure_pass@postgres:5432/clipforge_db
+      - REDIS_URL=redis://redis:6379/0
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - postgres
+      - redis
+    restart: always
+
+  # Celery Worker Pool with FFmpeg dependencies installed
+  celery_worker:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    command: celery -A worker.celery_app worker --loglevel=info -c 4
+    volumes:
+      - ../backend:/app
+      - shared_storage:/app/storage
+    environment:
+      - DATABASE_URL=postgresql://clipforge_user:secure_pass@postgres:5432/clipforge_db
+      - REDIS_URL=redis://redis:6379/0
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+    depends_on:
+      - redis
+      - postgres
+    restart: always
+
+  # Decoupled Message broker for Celery queues
+  redis:
+    image: redis:7-alpine
+    ports:
+      - '6379:6379'
+    restart: always
+
+  # PostgreSQL Relational persist database
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=clipforge_user
+      - POSTGRES_PASSWORD=secure_pass
+      - POSTGRES_DB=clipforge_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: always
+
+volumes:
+  postgres_data:
+  shared_storage:

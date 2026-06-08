@@ -1,0 +1,6 @@
+{
+  "name": "ClipForge AI",
+  "description": "Premium video clipper and caption generator. Crop long-form content automatically to viral 9:16 vertical reels with active word-highlight captions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

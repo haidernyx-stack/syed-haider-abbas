@@ -1,0 +1,94 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String    @id @default(uuid())
+  email         String    @unique
+  name          String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  projects      Project[]
+}
+
+model Project {
+  id              String           @id @default(uuid())
+  userId          String
+  user            User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title           String
+  description     String?
+  sourceUrl       String?          // Paste YouTube link
+  localFilePath   String?          // Direct uploads
+  durationSeconds Float            @default(0.0)
+  status          String           @default("QUEUED") // QUEUED, TRANSCRIBING, COGNITIVE_CLIPPING, REFRAMING, COMPLETED, FAILED
+  progress        Float            @default(0.0)
+  isMovieMode     Boolean          @default(false)
+  createdAt       DateTime         @default(now())
+  updatedAt       DateTime         @updatedAt
+  videos          Video[]
+  transcripts     Transcript[]
+  clips           Clip[]
+  exports         Export[]
+}
+
+model Video {
+  id                 String   @id @default(uuid())
+  projectId          String
+  project            Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  filePath           String
+  resolutionWidth    Int      @default(1920)
+  resolutionHeight   Int      @default(1080)
+  fileSizeBytes      BigInt   @default(0)
+  aspectRatio        String   @default("16:9")
+  createdAt          DateTime @default(now())
+}
+
+model Transcript {
+  id           String   @id @default(uuid())
+  projectId    String
+  project      Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  startMs      BigInt
+  endMs        BigInt
+  text         String
+  speakerName  String   @default("Speaker 1")
+  confidence   Float    @default(1.0)
+}
+
+model Clip {
+  id              String   @id @default(uuid())
+  projectId       String
+  project         Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title           String
+  hook            String
+  startMs         BigInt
+  endMs           BigInt
+  captionStyle    String   @default("TikTok") // TikTok, Hormozi, MrBeast, Minimal, Gaming
+  viralityScore   Int      @default(80)
+  engagementScore Int      @default(80)
+  cropCenterX     Float    @default(0.5) // Focus center coordinate for 9:16 vertical crop
+  cropCenterY     Float    @default(0.5)
+  cropScale       Float    @default(1.0)
+  ctaText         String   @default("WATCH UNTIL THE END")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  exports         Export[]
+}
+
+model Export {
+  id            String   @id @default(uuid())
+  projectId     String
+  project       Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  clipId        String?
+  clip          Clip?    @relation(fields: [clipId], references: [id], onDelete: SetNull)
+  outputPath    String
+  resolution    String   @default("1080x1920")
+  aspectPercent String   @default("9:16")
+  fileSizeBytes BigInt   @default(0)
+  durationSec   Float    @default(0.0)
+  createdAt     DateTime @default(now())
+}
